@@ -25,18 +25,21 @@ namespace Model
 
     public struct EntrantInfo
     {
-        public EntrantInfo(string name, string middleName, string surname, DateTime birthDate)
+        public EntrantInfo(string name, string middleName, string surname, DateTime birthDate, string phoneNumber)
         {
             Name = name;
             MiddleName = middleName;
             Surname = surname;
             BirthDate = birthDate;
+            PhoneNumber = phoneNumber;
         }
 
         public string Name { get; set; }
         public string MiddleName { get; set; }
         public string Surname { get; set; }
         public DateTime BirthDate { get; set; }
+        
+        public string PhoneNumber { get; set; }
 
         public override string ToString()
         {

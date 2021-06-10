@@ -30,14 +30,6 @@
         private void InitializeComponent()
         {
             this.listDataGridView = new System.Windows.Forms.DataGridView();
-            this.Info = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Exam1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Exam2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Exam3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Certificate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Contract = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.BirthDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Rating = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.saveButton = new System.Windows.Forms.Button();
             this.processButton = new System.Windows.Forms.Button();
             this.passedCountInput = new System.Windows.Forms.NumericUpDown();
@@ -49,6 +41,15 @@
             this.exam3CInput = new System.Windows.Forms.NumericUpDown();
             this.certificateCInput = new System.Windows.Forms.NumericUpDown();
             this.recalculateButton = new System.Windows.Forms.Button();
+            this.Info = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Exam1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Exam2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Exam3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Certificate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Contract = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.BirthDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Rating = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize) (this.listDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize) (this.passedCountInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize) (this.minRatingInput)).BeginInit();
@@ -61,63 +62,13 @@
             // listDataGridView
             // 
             this.listDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.listDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {this.Info, this.Exam1, this.Exam2, this.Exam3, this.Certificate, this.Contract, this.BirthDate, this.Rating});
+            this.listDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {this.Info, this.Exam1, this.Exam2, this.Exam3, this.Certificate, this.Contract, this.BirthDate, this.Rating, this.PhoneNumber});
             this.listDataGridView.Location = new System.Drawing.Point(12, 12);
             this.listDataGridView.Name = "listDataGridView";
             this.listDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.listDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.listDataGridView.Size = new System.Drawing.Size(643, 426);
             this.listDataGridView.TabIndex = 0;
-            // 
-            // Info
-            // 
-            this.Info.HeaderText = "Info";
-            this.Info.Name = "Info";
-            this.Info.Width = 200;
-            // 
-            // Exam1
-            // 
-            this.Exam1.HeaderText = "Exam1";
-            this.Exam1.Name = "Exam1";
-            this.Exam1.Width = 40;
-            // 
-            // Exam2
-            // 
-            this.Exam2.HeaderText = "Exam2";
-            this.Exam2.Name = "Exam2";
-            this.Exam2.Width = 40;
-            // 
-            // Exam3
-            // 
-            this.Exam3.HeaderText = "Exam3";
-            this.Exam3.Name = "Exam3";
-            this.Exam3.Width = 40;
-            // 
-            // Certificate
-            // 
-            this.Certificate.HeaderText = "Certificate";
-            this.Certificate.Name = "Certificate";
-            this.Certificate.Width = 40;
-            // 
-            // Contract
-            // 
-            this.Contract.HeaderText = "Contract";
-            this.Contract.Name = "Contract";
-            this.Contract.Width = 20;
-            // 
-            // BirthDate
-            // 
-            this.BirthDate.HeaderText = "BirthDate";
-            this.BirthDate.Name = "BirthDate";
-            this.BirthDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.BirthDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Rating
-            // 
-            this.Rating.HeaderText = "Rating";
-            this.Rating.Name = "Rating";
-            this.Rating.ReadOnly = true;
-            this.Rating.Width = 70;
             // 
             // saveButton
             // 
@@ -226,6 +177,61 @@
             this.recalculateButton.UseVisualStyleBackColor = true;
             this.recalculateButton.Click += new System.EventHandler(this.recalculateButton_Click);
             // 
+            // Info
+            // 
+            this.Info.HeaderText = "Info";
+            this.Info.Name = "Info";
+            this.Info.Width = 200;
+            // 
+            // Exam1
+            // 
+            this.Exam1.HeaderText = "Exam1";
+            this.Exam1.Name = "Exam1";
+            this.Exam1.Width = 40;
+            // 
+            // Exam2
+            // 
+            this.Exam2.HeaderText = "Exam2";
+            this.Exam2.Name = "Exam2";
+            this.Exam2.Width = 40;
+            // 
+            // Exam3
+            // 
+            this.Exam3.HeaderText = "Exam3";
+            this.Exam3.Name = "Exam3";
+            this.Exam3.Width = 40;
+            // 
+            // Certificate
+            // 
+            this.Certificate.HeaderText = "Certificate";
+            this.Certificate.Name = "Certificate";
+            this.Certificate.Width = 40;
+            // 
+            // Contract
+            // 
+            this.Contract.HeaderText = "Contract";
+            this.Contract.Name = "Contract";
+            this.Contract.Width = 20;
+            // 
+            // BirthDate
+            // 
+            this.BirthDate.HeaderText = "BirthDate";
+            this.BirthDate.Name = "BirthDate";
+            this.BirthDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.BirthDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Rating
+            // 
+            this.Rating.HeaderText = "Rating";
+            this.Rating.Name = "Rating";
+            this.Rating.ReadOnly = true;
+            this.Rating.Width = 70;
+            // 
+            // PhoneNumber
+            // 
+            this.PhoneNumber.HeaderText = "PhoneNumber";
+            this.PhoneNumber.Name = "PhoneNumber";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -255,6 +261,8 @@
             ((System.ComponentModel.ISupportInitialize) (this.certificateCInput)).EndInit();
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.DataGridViewTextBoxColumn PhoneNumber;
 
         private System.Windows.Forms.Button recalculateButton;
 

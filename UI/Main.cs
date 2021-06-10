@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Core;
 using Core.IO;
-using Microsoft.VisualBasic;
 using Model;
 
 namespace UI
@@ -18,7 +13,8 @@ namespace UI
         private IOHandler _dataIo;
         private IOHandler _passedIo;
         private IOHandler _interviewIo;
-        private List<Entrant> _list;
+        private IOHandler _conflictIo;
+        private EntrantList _list;
 
         private const int INFO_CELL_ID = 0;
         private const int EXAM1_CELL_ID = 1;
@@ -28,6 +24,7 @@ namespace UI
         private const int CONTRACT_CELL_ID = 5;
         private const int BIRTH_DATE_CELL_ID = 6;
         private const int RATING_CELL_ID = 7;
+        private const int PHONE_NUMBER_CELL_ID = 8;
 
         public MainForm()
         {
@@ -42,35 +39,29 @@ namespace UI
             int count = Convert.ToInt32(passedCountInput.Value);
             count = count > _list.Count ? _list.Count : count;
 
-            List<Entrant> ratingSort = _list.OrderBy(o => CalculateRating(o.Grades)).Reverse().ToList();
-
-            List<Entrant> passed = new List<Entrant>();
-            for (int i = 0; i < count; i++)
-            {
-                passed.Add(ratingSort[i]);
-            }
-            
-            List<Entrant> toInterview = new List<Entrant>();
-            for (int i = 0; i < ratingSort.Count; i++)
-            {
-                var e = ratingSort[i];
-                if (CalculateRating(e.Grades) > minRating && !passed.Contains(e) && e.AgreesToContract)
+            var sortedByRating = _list.OrderBy(o => CalculateRating(o.Grades)).Reverse().ToList();
+            var passed = _list.Take(count).ToList();
+            var notPassed = _list.Skip(count).Take(_list.Count - count).ToList();
+            var toInterview = notPassed.FindAll(entrant =>
                 {
-                    toInterview.Add(e);
-                }
-            }
-            
+                    return CalculateRating(entrant.Grades) > minRating && !entrant.AgreesToContract;
+                })
+                .ToList();
+            var conflicts = sortedByRating.FindAll(entrant =>
+                CalculateRating(entrant.Grades).Equals(CalculateRating(passed[^1].Grades)));
+
             _passedIo.SaveList(passed);
             _interviewIo.SaveList(toInterview);
+            _conflictIo.SaveList(conflicts);
         }
 
         private void Save()
         {
             RecalculateRating();
             UpdateData();
-            _dataIo.SaveList(_list);
+            _list.Save();
         }
-        
+
         private void saveButton_Click(object sender, EventArgs e)
         {
             Save();
@@ -83,7 +74,7 @@ namespace UI
 
         private void UpdateData()
         {
-            _list = new List<Entrant>();
+            _list = new EntrantList(_list.IoHandler);
             foreach (DataGridViewRow row in listDataGridView.Rows)
             {
                 if (!row.IsNewRow)
@@ -101,7 +92,8 @@ namespace UI
                                 info[0],
                                 info[1],
                                 info[2],
-                                Convert.ToDateTime(row.Cells[BIRTH_DATE_CELL_ID].Value)
+                                Convert.ToDateTime(row.Cells[BIRTH_DATE_CELL_ID].Value),
+                                Convert.ToString(row.Cells[PHONE_NUMBER_CELL_ID].Value)
                             ),
                             new Grades(
                                 Convert.ToInt32(row.Cells[EXAM1_CELL_ID].Value),
@@ -115,7 +107,7 @@ namespace UI
                     }
                     else
                     {
-                        Console.WriteLine($@"{info.ToString()} - Invalid Entrant Info");
+                        Console.WriteLine($@"{info} - Invalid Entrant Info");
                     }
                 }
             }
@@ -127,8 +119,10 @@ namespace UI
             _dataIo = new FileIOHandler(Core.Constants.DATA_FILE_NAME, new JSONSerializer());
             _passedIo = new FileIOHandler(Core.Constants.EXPORT_PASSED_FILE_NAME, new JSONSerializer());
             _interviewIo = new FileIOHandler(Core.Constants.EXPORT_INTERVIEW_FILE_NAME, new JSONSerializer());
-            
-            _list = _dataIo.ReadList();
+            _conflictIo = new FileIOHandler(Core.Constants.EXPORT_CONFLICT_FILE_NAME, new JSONSerializer());
+
+            _list = new EntrantList(_dataIo);
+            _list.Read();
 
             ReloadList();
         }
@@ -145,7 +139,8 @@ namespace UI
                     v.Grades.Exam1, v.Grades.Exam2, v.Grades.Exam3, v.Grades.Certificate,
                     v.AgreesToContract,
                     v.Info.BirthDate.ToShortDateString(),
-                    CalculateRating(v.Grades)
+                    CalculateRating(v.Grades),
+                    v.Info.PhoneNumber
                 );
             }
         }
