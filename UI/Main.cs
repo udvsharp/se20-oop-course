@@ -42,10 +42,8 @@ namespace UI
             var sortedByRating = _list.OrderBy(o => CalculateRating(o.Grades)).Reverse().ToList();
             var passed = _list.Take(count).ToList();
             var notPassed = _list.Skip(count).Take(_list.Count - count).ToList();
-            var toInterview = notPassed.FindAll(entrant =>
-                {
-                    return CalculateRating(entrant.Grades) > minRating && !entrant.AgreesToContract;
-                })
+            var toInterview = notPassed
+                .FindAll(entrant => CalculateRating(entrant.Grades) > minRating && !entrant.AgreesToContract)
                 .ToList();
             var conflicts = sortedByRating.FindAll(entrant =>
                 CalculateRating(entrant.Grades).Equals(CalculateRating(passed[^1].Grades)));
